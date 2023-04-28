@@ -1,0 +1,28 @@
+/*    https://leetcode.com/problems/subsets-ii/description/
+
+nums = [2,5,8] */
+
+
+class Solution {
+
+    void recur(int ind, int[] nums, List<Integer> ds, List<List<Integer>> ansList) {
+        
+        for(int i = ind;i<nums.length;i++) {
+            if(i!=ind && nums[i] == nums[i-1]) continue; 
+            ds.add(nums[i]);                                              //[2] -> [2, 5] -> [2, 5, 8]
+            System.out.println("ds at " + i + " = " + ds);
+            ansList.add(new ArrayList<>(ds));                             //[[], [2]] -> [[], [2], [2,5]] -> [[], [2], [2,5], [2, 5, 8]] 
+            System.out.println("ansList at " + i + " = " + ansList);
+            recur(i+1, nums, ds, ansList); 
+            ds.remove(ds.size() - 1);                                    // [2, 5] -> [2] ->
+        }
+    }
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums); 
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        res.add(new ArrayList<>(list)); 
+        recur(0, nums, list, res);
+        return res;
+    }
+}
